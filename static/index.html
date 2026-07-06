@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>上海市学校使用数据看板</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
+</head>
+<body>
+  <header>
+    <h1>上海市 16 区学校使用数据看板</h1>
+    <p>数据来源：教育软件使用统计 · 支持时间筛选、区域排名、四时段对比、学校对比</p>
+  </header>
+
+  <div id="loading" class="loading">正在加载数据...</div>
+
+  <div id="app" class="container" style="display:none">
+    <!-- 全局时间筛选 -->
+    <section class="time-panel">
+      <h2>时间筛选（进入即可设置，全局生效）</h2>
+      <div class="time-row">
+        <div class="field">
+          <label>开始日期</label>
+          <input type="date" id="startDate" />
+        </div>
+        <div class="field">
+          <label>结束日期</label>
+          <input type="date" id="endDate" />
+        </div>
+        <button class="btn btn-primary" id="applyTime">应用筛选</button>
+        <button class="btn btn-ghost" id="resetTime">重置</button>
+      </div>
+      <div class="preset-chips" id="presetChips"></div>
+    </section>
+
+    <!-- 指标切换 -->
+    <div class="metric-tabs" id="globalMetricTabs"></div>
+
+    <!-- 功能标签页 -->
+    <nav class="tabs">
+      <button class="tab active" data-tab="ranking">区域与学校排名</button>
+      <button class="tab" data-tab="compare">四时段数据对比</button>
+      <button class="tab" data-tab="school">学校同事段对比</button>
+    </nav>
+
+    <!-- Tab 1: 排名 -->
+    <section id="tab-ranking" class="tab-content active">
+      <div class="panel-grid">
+        <div class="panel">
+          <h3>选择区（搜索 / 单选）</h3>
+          <div id="districtSelector"></div>
+        </div>
+        <div>
+          <div class="panel">
+            <h3>16 区排名</h3>
+            <div id="districtTable"></div>
+          </div>
+          <div class="panel">
+            <h3 id="schoolTableTitle">区内学校排名</h3>
+            <div id="schoolTable"></div>
+          </div>
+        </div>
+      </div>
+      <div class="chart-grid">
+        <div class="panel">
+          <div id="districtBarChart" class="chart"></div>
+        </div>
+        <div class="panel">
+          <div id="schoolBarChart" class="chart"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab 2: 四时段对比 -->
+    <section id="tab-compare" class="tab-content">
+      <div class="panel">
+        <h3>设置 4 个对比时段</h3>
+        <div class="period-slots" id="periodInputs"></div>
+        <div style="margin-top:0.75rem">
+          <label style="font-size:0.85rem;margin-right:1rem">对比维度：</label>
+          <label style="font-size:0.85rem;margin-right:0.75rem">
+            <input type="radio" name="compareMode" value="district" checked /> 按区对比
+          </label>
+          <label style="font-size:0.85rem">
+            <input type="radio" name="compareMode" value="school" /> 按学校对比
+          </label>
+        </div>
+      </div>
+      <div class="panel-grid">
+        <div>
+          <div class="panel" id="compareDistrictPanel">
+            <h3>选择区（搜索 / 勾选）</h3>
+            <div id="compareDistrictSelector"></div>
+          </div>
+          <div class="panel" id="compareSchoolPanel" style="display:none">
+            <h3>选择学校（搜索 / 勾选，最多8所）</h3>
+            <div id="compareSchoolSelector"></div>
+          </div>
+        </div>
+        <div class="panel">
+          <div id="compareMainChart" class="chart"></div>
+        </div>
+      </div>
+      <div class="chart-grid" id="compareMetricCharts"></div>
+    </section>
+
+    <!-- Tab 3: 学校同事段对比 -->
+    <section id="tab-school" class="tab-content">
+      <div class="panel">
+        <h3>选择对比时间段</h3>
+        <div id="schoolComparePeriod"></div>
+      </div>
+      <div class="panel-grid">
+        <div class="panel">
+          <h3>选择学校（搜索 / 勾选，1～4 所）</h3>
+          <div id="schoolCompareSelector"></div>
+        </div>
+        <div>
+          <div class="panel">
+            <div id="schoolCompareChart" class="chart"></div>
+          </div>
+          <div class="panel">
+            <div id="schoolCompareRadar" class="chart"></div>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>对比明细表</h3>
+        <div id="schoolCompareTable"></div>
+      </div>
+      <div class="chart-grid" id="schoolCompareMetrics"></div>
+    </section>
+  </div>
+
+  <footer>上海市教育软件使用数据看板</footer>
+  <script src="/js/app.js"></script>
+</body>
+</html>
